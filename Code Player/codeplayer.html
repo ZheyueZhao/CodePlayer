@@ -1,0 +1,186 @@
+<html>
+
+		<head>
+			<title>CodePlayer</title>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+				<style type="text/css">
+					#icon{
+						font-family:sans-serif;
+						font-weight:bold;
+						font-size:120%;
+						padding:8px 5px;
+						float:left;
+					}
+					#header{
+						background-color:#EEEEEE;
+						height:40px;
+					
+					}
+					body{
+						padding:0px;
+						margin:0px;
+					}
+					#buttons{
+						padding:8px;
+						width:195px;
+						margin:0px auto;
+					
+					}
+					.trigger{
+						font-family:Helvetica;
+						border:1px solid gray;
+						background-color:#EEEEEE;
+						float:left;
+						height:60%;
+						font-size:80%
+						
+					
+					}
+					.trigger:hover{
+						background-color:gray;
+						
+					
+					}
+					#html{
+						border-top-left-radius:8px;
+						border-bottom-left-radius:8px;
+						
+					}
+					#output{
+						border-top-right-radius:8px;
+						border-bottom-right-radius:8px;
+						
+					}
+					.active{
+						background-color:#E8F2FF;
+					}
+					button:focus {
+						outline: none;
+					}
+					
+					textarea{
+						width:50%;
+						resize: none;
+						float:left;
+						border-top:none;
+						border-left:none;
+					}
+					textarea::placeholder{
+						color:#CCCCCC
+						
+					}
+					#result{
+						float:left;
+						width:50%;
+						
+						
+					
+					}
+					iframe{
+						border:none;
+					
+					}
+					#cssArea{
+						display:none;
+					}
+					#javascriptArea{
+						display:none;
+					}
+					#run{
+						position:relative;
+						left:250px;
+						bottom:25px;
+						
+					}
+					iframe{
+						height:600px;
+					
+					
+					}
+				</style>
+		
+		</head>
+		
+		
+		<body>
+			<div id="header">
+				<div id="icon">
+					CodingBin
+				</div>
+				<div id="buttons">
+				<button class="trigger active" id="html">html</button>
+				<button class="trigger" id="css">css</button>
+				<button class="trigger" id="javascript">javascript</button>
+				<button class="trigger active" id="output">output</button>
+				<button id="run">run javascript</button>
+				</div>
+			</div>
+			<textarea id="htmlArea" placeholder="Type HTML code here"></textarea>
+			<textarea id="cssArea" placeholder="Type css code here"></textarea>
+			<textarea id="javascriptArea" placeholder="Type javascript code here"></textarea>
+			<iframe id="outputArea"></iframe>
+			
+			
+			
+				<script type="text/javascript">
+				
+					function userinput(){
+					
+						$("iframe").contents().find("html").html("<html><head><style type='text/css'>"+$("#cssArea").val()
+						+ "</style></head><body>" + $("#htmlArea").val() + "</body></html>");
+					
+						
+					}
+					
+					$(".trigger").click(function(){
+							
+							
+							
+							var panelchecker = "";
+							
+							
+							$(this).toggleClass("active")		
+							//toggle the color of button
+							//The CSS .trigger:hover method controls the fadeout of button when hover
+							if(($(this).attr("id"))=="html"){
+								panelchecker = "#htmlArea"
+								
+								
+							}else if(($(this).attr("id"))=="css"){
+								panelchecker = "#cssArea"
+								
+							}else if(($(this).attr("id"))=="javascript"){
+								panelchecker = "#javascriptArea"
+								
+							}else if(($(this).attr("id"))=="output"){
+								panelchecker = "#outputArea"
+								
+							}
+								$(panelchecker).toggle();
+								var active = $(".active").length;
+								//count how many elements are currently active
+								$("textarea").width(($(window).width()/active)-5)
+								$("iframe").width(($(window).width()/active)-5)
+								//calculate average width by dividing total width by amount active
+					})
+					$("textarea").css("height",($( window ).height()-$("#header").height()))
+					//Set height of textbox to fill the window
+					$("iframe").width(($(window).width()/2))
+					$("textarea").on('change keyup paste', function() {
+						//update output page when there is a change in contents
+
+					
+						userinput();
+					})
+					$("#run").click(function(){
+					
+						document.getElementById("outputArea").contentWindow.eval($("#javascriptArea").val());
+					
+					})
+					
+					
+				</script>
+		
+		</body>
+		
+</html>
